@@ -24,7 +24,9 @@ LIBS_DIR=${PREFIX_DIR}/libs
 INCLUDE_DIR=${PREFIX_DIR}/include
 
 WITHOUT_LIBRARIES=--without-python
-WITH_LIBRARIES="--with-chrono --with-system"
+
+# only build these libs
+# WITH_LIBRARIES="--with-chrono --with-system"
 
 
 LOG_FILE=${BUILD_DIR}/build.log
@@ -342,6 +344,7 @@ for LINKAGE in $LINKAGES; do
                 --ignore-site-config         \
                 --layout=system           \
                 $WITH_LIBRARIES           \
+                $WITHOUT_LIBRARIES           \
                 --build-dir=${BUILD_DIR_TMP}/$ABI_NAME \
                 --includedir=${INCLUDE_DIR} \
                 --libdir=${LIBS_DIR}/$ABI_NAME \
