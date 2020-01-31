@@ -1,13 +1,30 @@
+# Author: Declan Moran (www.silverglint.com)
 
-export BOOST_DIR=$(pwd)/../down/boost/1.71.0
+
+# Extract boost (src) archive to a directory of the form "major.minor.patch" 
+# such that eg ...../1.72.0/bootstrap.sh, etc
 
 
-export NDK_DIR=$(pwd)/../down/ndk/20
 
-#export ABI_NAMES="armeabi-v7a" 
+#--------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------
+# Modify the variables below as appropriate for your local setup.
+#----------------------------------------------------------------
+
+# Specify the path to boost source code dir 
+export BOOST_DIR=$(pwd)/../down/boost/1.72.0
+
+
+# Where the Android Ndk you want to build with is located
+export NDK_DIR=$(pwd)/../down/ndk/21
+
+# Which target abis (~ architecture + instruction set) you want to build for     
 export ABI_NAMES="arm64-v8a armeabi-v7a x86 x86_64"
 
-#export LINKAGES="static"
+# Whether to build boost as dynamic or shared libraries (or both)
 export LINKAGES="shared static" # can be "shared" or "static" or "shared static" (both)
+
+
+#----------------------------------------------------------------
 
 ./build.sh
