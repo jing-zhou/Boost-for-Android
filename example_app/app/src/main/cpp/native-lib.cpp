@@ -18,7 +18,7 @@ Java_com_example_declan_myapplication_MainActivity_stringFromJNI(
         JNIEnv *env,
         jobject /* this */) {
 
-    string Str = "Hello from C++";
+    string Str = "Hello from C++\n";
 
     //-------------------------------------
     boost::chrono::system_clock::time_point p  = boost::chrono::system_clock::now();
