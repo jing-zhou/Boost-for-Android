@@ -42,23 +42,23 @@ fi
 
 #----------------------------------------------------------------------------------
 # map ABI to toolset name (following "using clang :") used in user-config.jam
-toolset_for_abi_name() {
-
-
-    local abi_name=$1
-    
-    case "$abi_name" in
-        arm64-v8a)      echo "arm64v8a"
-        ;;
-        armeabi-v7a)    echo "armeabiv7a"
-        ;;
-        x86)            echo "x86"
-        ;;
-        x86_64)         echo "x8664"
-        ;;
-        
-    esac
-}
+# toolset_for_abi_name() {
+# 
+# 
+#     local abi_name=$1
+#     
+#     case "$abi_name" in
+#         arm64-v8a)      echo "arm64v8a"
+#         ;;
+#         armeabi-v7a)    echo "armeabiv7a"
+#         ;;
+#         x86)            echo "x86"
+#         ;;
+#         x86_64)         echo "x8664"
+#         ;;
+#         
+#     esac
+# }
 #----------------------------------------------------------------------------------
 # map abi to {NDK_DIR}/toolchains/llvm/prebuilt/linux-x86_64/bin/*-clang++
 clang_triple_for_abi_name() {
@@ -68,9 +68,9 @@ clang_triple_for_abi_name() {
     case "$abi_name" in
         arm64-v8a)      echo "aarch64-linux-android21"
         ;;
-        armeabi-v7a)    echo "armv7a-linux-androideabi16"
+        armeabi-v7a)    echo "armv7a-linux-androideabi19"
         ;;
-        x86)            echo "i686-linux-android16"
+        x86)            echo "i686-linux-android19"
         ;;
         x86_64)         echo "x86_64-linux-android21"
         ;;
@@ -290,7 +290,6 @@ cd $BOOST_DIR
 # ---------
 if [ ! -f ${BOOST_DIR}/b2 ]
 then
-  # Make the initial bootstrap
   echo "Performing boost bootstrap"
 
   ./bootstrap.sh # 2>&1 | tee -a bootstrap.log
@@ -316,11 +315,12 @@ for LINKAGE in $LINKAGES; do
 
     for ABI_NAME in $ABI_NAMES; do
     
-        toolset_name="$(toolset_for_abi_name $ABI_NAME)"
+        # toolset_name="$(toolset_for_abi_name $ABI_NAME)"
         abi="$(abi_for_abi_name $ABI_NAME)"
         address_model="$(address_model_for_abi_name $ABI_NAME)"
         arch_for_abi="$(arch_for_abi_name $ABI_NAME)"
 
+        # used by scripts in ./bin/
         export BFA_CLANG_TRIPLE_FOR_ABI="$(clang_triple_for_abi_name $ABI_NAME)"
         export BFA_TOOL_TRIPLE_FOR_ABI="$(tool_triple_for_abi_name $ABI_NAME)"
         export BFA_COMPILER_FLAGS_FOR_ABI="$(compiler_flags_for_abi_name $ABI_NAME)"
@@ -328,6 +328,26 @@ for LINKAGE in $LINKAGES; do
         
         echo "------------------------------------------------------------"| tee -a ${LOG_FILE}
         echo "Building boost for: $ABI_NAME $LINKAGE"| tee -a ${LOG_FILE}
+    
+        # echo "address-model=$address_model "            | tee -a ${LOG_FILE}
+        # echo "architecture=$arch_for_abi "              | tee -a ${LOG_FILE}
+        # echo "abi=$abi "                                | tee -a ${LOG_FILE}   
+        # echo "link=$LINKAGE  "                          | tee -a ${LOG_FILE}  
+        # echo "--user-config=$USER_CONFIG_FILE"          | tee -a ${LOG_FILE}
+        
+        # echo "WITH_LIBRARIES = $WITH_LIBRARIES"         | tee -a ${LOG_FILE} 
+        # echo "WITHOUT_LIBRARIES = $WITHOUT_LIBRARIES"   | tee -a ${LOG_FILE} 
+    
+        # echo "--builddir=${BUILD_DIR_TMP}/$ABI_NAME "  | tee -a ${LOG_FILE}
+        # echo "--includedir=${INCLUDE_DIR}"              | tee -a ${LOG_FILE}
+        # echo "--libdir=${LIBS_DIR}/$ABI_NAME"           | tee -a ${LOG_FILE}
+
+        
+        # echo "BFA_CLANG_TRIPLE_FOR_ABI=$(clang_triple_for_abi_name $ABI_NAME)"      | tee -a ${LOG_FILE}
+        # echo "BFA_TOOL_TRIPLE_FOR_ABI=$(tool_triple_for_abi_name $ABI_NAME)"        | tee -a ${LOG_FILE}
+        # echo "BFA_COMPILER_FLAGS_FOR_ABI=$(compiler_flags_for_abi_name $ABI_NAME)"  | tee -a ${LOG_FILE}
+        # echo "BFA_LINKER_FLAGS_FOR_ABI=$(linker_flags_for_abi_name $ABI_NAME)"      | tee -a ${LOG_FILE}
+        
         echo "------------------------------------------------------------"| tee -a ${LOG_FILE}
         # toolset=clang-$toolset_name     \
                                    
@@ -352,9 +372,9 @@ for LINKAGE in $LINKAGES; do
                 || { echo "Error: Failed to build boost for $ABI_NAME!";}
         } | tee -a ${LOG_FILE}
         
-    done # for ARCH in $ARCHLIST
+    done # for ABI_NAME in $ABI_NAMES
     
-done # for LINKAGE in $LINKAGE_LIST
+done # for LINKAGE in $LINKAGES
 
 #------------------------------------------- 
 
