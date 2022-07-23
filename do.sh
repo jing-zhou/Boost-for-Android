@@ -12,19 +12,19 @@
 #----------------------------------------------------------------
 
 # Specify the path to boost source code dir 
-export BOOST_DIR=$(pwd)/../down/boost/1.72.0
+export BOOST_DIR=$(pwd)/../down/boost/1.79.0
 
 
 # Where the Android Ndk you want to build with is located
-export NDK_DIR=$(pwd)/../down/ndk/21
+export NDK_DIR=/home/declan/Android/Sdk/ndk/25.0.8775105
 
 # Which target abis (~ architecture + instruction set) you want to build for     
-export ABI_NAMES="arm64-v8a armeabi-v7a x86 x86_64"
+export ABI_NAMES="armeabi-v7a" # arm64-v8a armeabi-v7a x86 x86_64"
 
 # Whether to build boost as dynamic or shared libraries (or both)
-export LINKAGES="shared static" # can be "shared" or "static" or "shared static" (both)
+export LINKAGES="shared" # static" # can be "shared" or "static" or "shared static" (both)
 
 
 #----------------------------------------------------------------
 
-./build.sh
+./__build.sh
