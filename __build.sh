@@ -33,7 +33,7 @@ LOG_FILE=${BUILD_DIR}/build.log
 #empty logFile 
 if [ -f "$LOG_FILE" ]  
 then 
-    rm $LOG_FILE
+    rm "$LOG_FILE"
 fi          
     
 
