@@ -57,7 +57,8 @@ fi
 
 #echo " .... PARMS (2)  = " $PARAMS
 
-FLAGS=" -fno-integrated-as -fPIC" 
+# FLAGS=" -fno-integrated-as -fPIC" 
+FLAGS=" -fPIC" 
 if [ "x$LINKER" = "xyes" ]; then
     FLAGS="$FLAGS $BFA_LINKER_FLAGS_FOR_ABI"
 else
