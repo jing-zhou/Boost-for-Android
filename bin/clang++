@@ -5,4 +5,11 @@
 # include common base
 . `dirname $0`/base_clang++
 
+#echo "pwd = $(pwd)"
+#echo "---------"
+#echo " .... calling clang: ${NDK_DIR}/toolchains/llvm/prebuilt/linux-x86_64/bin/${BFA_CLANG_TRIPLE_FOR_ABI}-clang++"
+#echo "---------"
+#echo ".... with PARAMS: $PARAMS"
+#echo "---------"
+
 run ${NDK_DIR}/toolchains/llvm/prebuilt/linux-x86_64/bin/${BFA_CLANG_TRIPLE_FOR_ABI}-clang++ $PARAMS
