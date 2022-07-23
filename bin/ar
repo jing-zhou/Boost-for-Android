@@ -2,5 +2,5 @@
 
 #echo "in ar....${BFA_TOOL_TRIPLE_FOR_ABI}" 
 #exec ${NDK_DIR}/toolchains/llvm/prebuilt/linux-x86_64/bin/${BFA_TOOL_TRIPLE_FOR_ABI}-ar "$@"
-exec ${NDK_DIR}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar "$@"
+exec ${NDK_DIR}/toolchains/llvm/prebuilt/${HOST_OS_TAG}/bin/llvm-ar "$@"
 

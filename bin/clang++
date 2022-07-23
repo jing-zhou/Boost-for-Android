@@ -12,4 +12,4 @@
 #echo ".... with PARAMS: $PARAMS"
 #echo "---------"
 
-run ${NDK_DIR}/toolchains/llvm/prebuilt/linux-x86_64/bin/${BFA_CLANG_TRIPLE_FOR_ABI}-clang++ $PARAMS
+run ${NDK_DIR}/toolchains/llvm/prebuilt/${HOST_OS_TAG}/bin/${BFA_CLANG_TRIPLE_FOR_ABI}-clang++ $PARAMS

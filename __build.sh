@@ -12,13 +12,13 @@ export PATH=$(pwd)/bin:$SAVED_PATH
 
 
 BUILD_DIR=$(pwd)/build
-mkdir --parents ${BUILD_DIR}
+mkdir -p ${BUILD_DIR}
 
 
 BUILD_DIR_TMP=${BUILD_DIR}/tmp
 
 PREFIX_DIR=${BUILD_DIR}/install
-mkdir --parents ${PREFIX_DIR}
+mkdir -p ${PREFIX_DIR}
  
 LIBS_DIR=${PREFIX_DIR}/libs
 INCLUDE_DIR=${PREFIX_DIR}/include
@@ -37,9 +37,20 @@ then
 fi          
     
 
-
-
-
+#---------------------------------------------------
+host_os_tag() {
+    # are we building on linux or mac
+    
+    unameOut="$(uname -s)"
+    case "${unameOut}" in
+        Linux*)     echo "linux-x86_64";;
+        Darwin*)    echo "darwin-x86_64";;
+        *)          echo "host_os_tag_unknown"
+    esac
+    
+}
+#---------------------------------
+export HOST_OS_TAG=$(host_os_tag)
 #----------------------------------------------------------------------------------
 # map ABI to toolset name (following "using clang :") used in user-config.jam
 # toolset_for_abi_name() {
@@ -202,7 +213,7 @@ persist_ndk_version()
     local source_properties=${NDK_DIR}/source.properties
     
     local dir_path=${PREFIX_DIR}/include/boost
-    mkdir --parents $dir_path
+    mkdir -p $dir_path
     local headerFile=${dir_path}/version_ndk.hpp
     
    
@@ -327,7 +338,7 @@ for LINKAGE in $LINKAGES; do
         export BFA_LINKER_FLAGS_FOR_ABI="$(linker_flags_for_abi_name $ABI_NAME)"
         
         echo "------------------------------------------------------------"| tee -a ${LOG_FILE}
-        echo "Building boost for: $ABI_NAME $LINKAGE"| tee -a ${LOG_FILE}
+        echo "Building boost for: $ABI_NAME $LINKAGE on host ${HOST_OS_TAG}" | tee -a ${LOG_FILE}
     
         # echo "address-model=$address_model "            | tee -a ${LOG_FILE}
         # echo "architecture=$arch_for_abi "              | tee -a ${LOG_FILE}
