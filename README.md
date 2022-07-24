@@ -4,9 +4,9 @@ Build and/or simply download the Boost C++ Libraries for the Android platform, w
 The [Boost C++ Libraries](http://www.boost.org/), are possibly *the* most popular and generally useful c++ libraries. It would be nice to be able to use them when developing (native c++ or hybrid java/c++ with Google's [Ndk](https://developer.android.com/ndk/)) apps and/or libraries for Android devices.
 The Boost libraries are written to be cross platform, and are available in source code format. However, building the libraries for a given target platform like Android can be very difficult and time consuming. (In particular, building **arm64_v8a** shared libraries that an application can actually load). This project aims to lower the barrier by offering a simple customizable build script you can use to build Boost for Android (abstracting away all the details of the underlying custom boost build system, and target architecture differences), and even providing standard prebuilt binaries to get you started fast.
 
-Tested with **Boost 1.72.0** and **Google's Ndk 21**  (LTS).
+Tested with **Boost 1.79.0** and **Google's Ndk 25**  (LTS).
 
-You can build directly on a Linux machine, or indirectly on any of Linux, Windows, MacOS via [docker](https://www.docker.com) (or of course virtual machines). _No matter what OS you use to build with, the resulting binaries can then be copied to any other, and used from then on as if you had built on there to start with (theyre cross compiled *for* android and have no memory of *where* they were built_).
+You can build directly on a Linux or MacOS machine, or indirectly on any of Linux, Windows, MacOS via [docker](https://www.docker.com) (or of course virtual machines). _No matter what OS you use to build with, the resulting binaries can then be copied to any other, and used from then on as if you had built on there to start with (theyre cross compiled *for* android and have no memory of *where* they were built_).
 
 Works with **clang** (llvm) 
 *- as of ndk 16 google no longer supports gcc*.
@@ -14,7 +14,7 @@ Works with **clang** (llvm)
 Creates binaries for multiple abis (**armeabi-v7a**, **arm64-v8a**, **x86**, **x86_64**).
 
 
-*Tested with a development machine running Ubuntu 18.04.*
+*Tested with a development machine running Ubuntu 20.04.*
 
 ## Prebuilt
 You can just download a current set of standard prebuilt binaries [here](https://github.com/dec1/Boost-for-Android/releases) if you don't need to customize the build, or don't have access to a unix-like development machine. 
@@ -79,7 +79,7 @@ want to use these. To see which of the libraries do require building you can swi
 > ./bootstrap.sh --show-libraries 
 ```
 
-which for example with boost 1.71 produces the output:
+which for example with boost 1.79 produces the output:
 
 ```
 The following Boost libraries have portions that require a separate build
@@ -101,10 +101,12 @@ The Boost libraries requiring separate building and installation are:
     - graph_parallel
     - headers
     - iostreams
+    - json
     - locale
     - log
     - math
     - mpi
+    - nowide
     - program_options
     - python
     - random
@@ -117,6 +119,7 @@ The Boost libraries requiring separate building and installation are:
     - timer
     - type_erasure
     - wave
+
 
 ```
 ## Crystax
