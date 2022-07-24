@@ -14,7 +14,7 @@ Works with **clang** (llvm)
 Creates binaries for multiple abis (**armeabi-v7a**, **arm64-v8a**, **x86**, **x86_64**).
 
 
-*Tested with a development machine running Ubuntu 20.04.*
+*Tested on a development machine running Ubuntu 20.04. and MacOS 11.6.5 *
 
 ## Prebuilt
 You can just download a current set of standard prebuilt binaries [here](https://github.com/dec1/Boost-for-Android/releases) if you don't need to customize the build, or don't have access to a unix-like development machine. 
