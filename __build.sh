@@ -49,8 +49,22 @@ host_os_tag() {
     esac
     
 }
-#---------------------------------
+#-------------------------------------
 export HOST_OS_TAG=$(host_os_tag)
+
+#---------------------------------------------------
+num_cpu_cores() {
+    # are we building on linux or mac
+    
+    unameOut="$(uname -s)"
+    case "${unameOut}" in
+        Linux*)     echo $(grep -c ^processor /proc/cpuinfo);;
+        Darwin*)    echo $(sysctl -n hw.ncpu);;
+        *)          echo "1"
+    esac
+    
+}
+
 #----------------------------------------------------------------------------------
 # map ABI to toolset name (following "using clang :") used in user-config.jam
 # toolset_for_abi_name() {
@@ -309,19 +323,12 @@ fi
 #-------------------------------------------  
 
 # use as many cores as available (for build)
-num_cores=$(grep -c ^processor /proc/cpuinfo)
+num_cores=$(num_cpu_cores)
 echo " cores available = " $num_cores 
 
 
 
-
 #------------------------------------------- 
-                
-
-    
-    
-
-
 for LINKAGE in $LINKAGES; do
 
     for ABI_NAME in $ABI_NAMES; do
