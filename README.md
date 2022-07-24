@@ -28,7 +28,7 @@ This way you need not need to install any build tools or other prerequisites, an
 
 See [docker_readme](./docker/docker_readme.md) for instructions.
 
-### Build directly on your Linux machine
+### Build directly on your Linux or MacOS machine
 
 * For prerequisites see [Dockerflile](./docker/droid_base#L18) (even though the remaining instructions below don't use docker)
 * Download the [boost source](https://www.boost.org) and extract to a directory of the form *..../major.minor.patch* 
