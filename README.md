@@ -6,7 +6,7 @@ The Boost libraries are written to be cross platform, and are available in sourc
 
 Tested with **Boost 1.79.0** and **Google's Ndk 25**  (LTS).
 
-You can build directly on a Linux or MacOS machine, or indirectly on any of Linux, Windows, MacOS via [docker](https://www.docker.com) (or of course virtual machines). _No matter what OS you use to build with, the resulting binaries can then be copied to any other, and used from then on as if you had built on there to start with (theyre cross compiled *for* android and have no memory of *where* they were built_).
+You can build directly on a Linux or MacOS machine, or indirectly on any of Linux, Windows, MacOS via [docker](https://www.docker.com) (or of course virtual machines). _No matter what OS you use to build with, the resulting binaries can then be copied to any other, and used from then on as if you had built them there to start with (theyre cross compiled *for* android and have no memory of *where* they were built_).
 
 Works with **clang** (llvm) 
 *- as of ndk 16 google no longer supports gcc*.
