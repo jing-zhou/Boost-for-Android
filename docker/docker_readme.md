@@ -34,7 +34,7 @@ build docker image *my_img_droid_base* from the docker file *droid_base* (using 
 
 Run a docker container *my_ctr_droid_base* from this image, mounting the current dir as */home/bfa*
 
-If you have downloaded boost and ndk as suggested to this (host) dir then they will automatically be avialable in the */home/bfa/down* dir of the container too.
+If you have downloaded boost and ndk as suggested to this (host) dir then they will automatically be available in the */home/bfa/down* dir of the container too.
 (Otherwise you need to mount the respective paths additionally).
 
 _Note_:
