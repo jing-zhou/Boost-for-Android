@@ -1,11 +1,16 @@
-# Version: 1.2
+# Version: 1.4
 
-# Dockerfile for building boost for android
+# Dockerfile with all tools, libraries and sources for building boost for android, automatically.
+
+# NOT recommended as some things used here change often.
+# Prefer droid_base instead
+
+
+
 # https://github.com/dec1/Boost-for-Android
-# creates docker container with all tools, libraries and sources required to build boost for android.
+# creates docker container 
 
 # Author: Declan Moran
-# www.silverglint.com
 
 
 # Usage: 

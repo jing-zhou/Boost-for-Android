@@ -4,12 +4,10 @@ Build and/or simply download the Boost C++ Libraries for the Android platform, w
 The [Boost C++ Libraries](http://www.boost.org/), are possibly *the* most popular and generally useful c++ libraries. It would be nice to be able to use them when developing (native c++ or hybrid java/c++ with Google's [Ndk](https://developer.android.com/ndk/)) apps and/or libraries for Android devices.
 The Boost libraries are written to be cross platform, and are available in source code format. However, building the libraries for a given target platform like Android can be very difficult and time consuming. (In particular, building **arm64_v8a** shared libraries that an application can actually load). This project aims to lower the barrier by offering a simple customizable build script you can use to build Boost for Android (abstracting away all the details of the underlying custom boost build system, and target architecture differences), and even providing standard prebuilt binaries to get you started fast.
 
-Tested with **Boost 1.79.0** and **Google's Ndk 25**  (LTS).
+Tested with **Boost 1.83.0** and **Google's Ndk 26c**  (LTS).
 
-You can build directly on a Linux or MacOS machine, or indirectly on any of Linux, Windows, MacOS via [docker](https://www.docker.com) (or of course virtual machines). _No matter what OS you use to build with, the resulting binaries can then be copied to any other, and used from then on as if you had built them there to start with (theyre cross compiled *for* android and have no memory of *where* they were built_).
+You can build directly on a Linux or MacOS machine, or indirectly on any of Linux, Windows, MacOS via [docker](https://www.docker.com) (or of course virtual machines and wsl). _No matter what OS you use to build with, the resulting binaries can then be copied to any other, and used from then on as if you had built them there to start with (theyre cross compiled *for* android and have no memory of *where* they were built_).
 
-Works with **clang** (llvm) 
-*- as of ndk 16 google no longer supports gcc*.
 
 Creates binaries for multiple abis (**armeabi-v7a**, **arm64-v8a**, **x86**, **x86_64**).
 
@@ -32,15 +30,12 @@ See [docker_readme](./docker/docker_readme.md) for instructions.
 
 * For prerequisites see [Dockerflile](./docker/droid_base#L18) (even though the remaining instructions below don't use docker)
 * Download the [boost source](https://www.boost.org) and extract to a directory of the form *..../major.minor.patch* 
-  eg */home/declan/Documents/zone/mid/lib/boost/1.71.0* 
-  If necessary, fix any bugs in boost  (eg for [1.71.0](https://github.com/boostorg/build/issues/385)).
-
-  
-  *__Note__:* After the extarction *..../boost/1.71.0* should then be the direct parent dir of "bootstrap.sh", "boost-build.jam" etc
+  eg */home/declan/Documents/zone/mid/lib/boost/1.83.0* 
+  *__Note__:* After the extarction *..../boost/1.83.0* should then be the direct parent dir of "bootstrap.sh", "boost-build.jam" etc
 
 
 ```
-> ls /home/declan/Documents/zone/mid/lib/boost/1.71.0
+> ls /home/declan/Documents/zone/mid/lib/boost/1.83.0
 boost  boost-build.jam  boostcpp.jam  boost.css  boost.png  ....
 ``` 
 
@@ -79,7 +74,7 @@ want to use these. To see which of the libraries do require building you can swi
 > ./bootstrap.sh --show-libraries 
 ```
 
-which for example with boost 1.79 produces the output:
+which for example with boost 1.83.0 produces the output:
 
 ```
 The following Boost libraries have portions that require a separate build
@@ -118,14 +113,14 @@ The Boost libraries requiring separate building and installation are:
     - thread
     - timer
     - type_erasure
+    - url
     - wave
-
 
 ```
 ## Crystax
-[Crystax](https://www.crystax.net/) is an excellent alternative to Google's Ndk. It ships with prebuilt boost binaries, and dedicated build scripts.
+[Crystax](https://www.crystax.net/) is an alternative to Google's Ndk. It ships with prebuilt boost binaries, and dedicated build scripts.
 These binaries will however not work with Goolge's Ndk. If for some reason you can't or don't want to use Crystax then you can't use their boost binaries or build scripts, which is why this project exists.
 
 ## Contributions
 - Many thanks to [crystax](https://github.com/crystax/android-platform-ndk/tree/master/build/tools) for their version of *build-boost.sh* which I adapted to make it work with the google ndk.
-- Thanks to [google](https://android.googlesource.com/platform/ndk/+/master/build/tools) for the  files *dev-defaults.sh, ndk-common.sh, prebuilt-common.sh*.
+
