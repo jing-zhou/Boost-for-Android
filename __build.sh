@@ -93,9 +93,9 @@ clang_triple_for_abi_name() {
     case "$abi_name" in
         arm64-v8a)      echo "aarch64-linux-android21"
         ;;
-        armeabi-v7a)    echo "armv7a-linux-androideabi19"
+        armeabi-v7a)    echo "armv7a-linux-androideabi21"
         ;;
-        x86)            echo "i686-linux-android19"
+        x86)            echo "i686-linux-android21"
         ;;
         x86_64)         echo "x86_64-linux-android21"
         ;;
