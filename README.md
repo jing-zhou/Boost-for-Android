@@ -47,7 +47,7 @@ boost  boost-build.jam  boostcpp.jam  boost.css  boost.png  ....
 
 
 * Modify the paths (where the ndk is) and variables (which abis you want to build for) in *do.sh*, and execute it. If the build succeeds then the boost binaries should then be available in the dir *boost_for_android/build*
-
+Note: If you download the ndk directly do *not* extract it with [Ark](https://apps.kde.org/de/ark). It produces a corrupt extraction, that results in strange compiler errors. (use unzip instead)
 ```
 > cd boost_for_android
 > ./do.sh
