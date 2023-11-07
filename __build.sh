@@ -64,26 +64,6 @@ num_cpu_cores() {
     esac
     
 }
-
-#----------------------------------------------------------------------------------
-# map ABI to toolset name (following "using clang :") used in user-config.jam
-# toolset_for_abi_name() {
-# 
-# 
-#     local abi_name=$1
-#     
-#     case "$abi_name" in
-#         arm64-v8a)      echo "arm64v8a"
-#         ;;
-#         armeabi-v7a)    echo "armeabiv7a"
-#         ;;
-#         x86)            echo "x86"
-#         ;;
-#         x86_64)         echo "x8664"
-#         ;;
-#         
-#     esac
-# }
 #----------------------------------------------------------------------------------
 # map abi to {NDK_DIR}/toolchains/llvm/prebuilt/linux-x86_64/bin/*-clang++
 clang_triple_for_abi_name() {
@@ -383,9 +363,9 @@ for LINKAGE in $LINKAGES; do
                 --layout=system           \
                 $WITH_LIBRARIES           \
                 $WITHOUT_LIBRARIES           \
-                --build-dir=${BUILD_DIR_TMP}/$ABI_NAME \
+                --build-dir=${BUILD_DIR_TMP}/$ABI_NAME/$LINKAGE \
                 --includedir=${INCLUDE_DIR} \
-                --libdir=${LIBS_DIR}/$ABI_NAME \
+                --libdir=${LIBS_DIR}/$ABI_NAME/$LINKAGE \
                 install 2>&1                 \
                 || { echo "Error: Failed to build boost for $ABI_NAME!";}
         } | tee -a ${LOG_FILE}
