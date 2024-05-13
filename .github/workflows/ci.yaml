@@ -31,6 +31,8 @@ jobs:
 
       - name: Determine the Tag Name
         id: get-tag-name
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.tagName }}" != "" ]]; then
             echo "Using manually provided tag name: ${{ github.event.inputs.tagName }}"
@@ -42,6 +44,8 @@ jobs:
           fi
 
       - name: Download the release asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Construct the asset file name
           asset_name="${{ steps.get-tag-name.outputs.tag_name }}.zip"
@@ -56,3 +60,13 @@ jobs:
         run: |
           asset_name="${{ steps.get-tag-name.outputs.tag_name }}.zip"
           unzip "$asset_name" -d extracted
+
+      # - name: Check for the specific file
+      #   run: |
+      #     # Update this path to the expected location of your file within the extracted directory
+      #     if [ -f "extracted/path/to/your/file" ]; then
+      #       echo "File exists."
+      #     else
+      #       echo "File does not exist."
+      #       exit 1
+      #     fi
