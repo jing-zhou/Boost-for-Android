@@ -36,29 +36,29 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.tagName }}" != "" ]]; then
             echo "Using manually provided tag name: ${{ github.event.inputs.tagName }}"
-            echo "::set-output name=tag_name::${{ github.event.inputs.tagName }}"
+            echo "tag_name=${{ github.event.inputs.tagName }}" >> $GITHUB_ENV
           else
             echo "Determining the latest release tag..."
             release_info=$(gh release view --json tagName -q .tagName)
-            echo "::set-output name=tag_name::$release_info"
+            echo "tag_name=$release_info" >> $GITHUB_ENV
           fi
 
       - name: Download the release asset
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Construct the asset file name
-          asset_name="${{ steps.get-tag-name.outputs.tag_name }}.zip"
+          # Read the tag name from the environment variable
+          asset_name="${{ env.tag_name }}.zip"
           echo "Looking for asset: $asset_name"
           
           # Use GitHub CLI to download the asset
-          gh release download "${{ steps.get-tag-name.outputs.tag_name }}" \
+          gh release download "${{ env.tag_name }}" \
             --pattern "$asset_name" \
             --dir .
 
       - name: Extract the archive
         run: |
-          asset_name="${{ steps.get-tag-name.outputs.tag_name }}.zip"
+          asset_name="${{ env.tag_name }}.zip"
           unzip "$asset_name" -d extracted
 
       # - name: Check for the specific file
