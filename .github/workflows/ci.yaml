@@ -51,15 +51,26 @@ jobs:
           asset_name="${{ env.tag_name }}.zip"
           echo "Looking for asset: $asset_name"
           
+          # Ensure no stale asset file is present
+          rm -f "$asset_name"
+
           # Use GitHub CLI to download the asset
           gh release download "${{ env.tag_name }}" \
             --pattern "$asset_name" \
             --dir .
 
+          # List files to verify the correct asset is downloaded
+          echo "Downloaded files:"
+          ls -l
+
       - name: Extract the archive
         run: |
           asset_name="${{ env.tag_name }}.zip"
           unzip "$asset_name" -d extracted
+
+          # List contents to ensure cache is not affecting the content
+          echo "Contents of extracted directory:"
+          ls -lR extracted/
 
       - name: Check for the expected directory structure
         run: |
@@ -89,9 +100,7 @@ jobs:
 
           echo "All specified directories exist."
 
-
-
-        # extracted/{release_name}
+                  # extracted/{release_name}
         # include
         #   boost/
         # libs
@@ -111,5 +120,4 @@ jobs:
       #       echo "File does not exist."
       #       exit 1
       #     fi
-
 
