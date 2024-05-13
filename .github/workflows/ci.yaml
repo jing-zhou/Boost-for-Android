@@ -1,0 +1,43 @@
+name: Release Asset Check
+
+on:
+  release:
+    types: [created, published]
+
+jobs:
+  check-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install GitHub CLI
+        run: |
+          if ! command -v gh &> /dev/null
+          then
+            echo "GitHub CLI not found, installing..."
+            sudo apt update
+            sudo apt install -y gh
+          else
+            echo "GitHub CLI is already installed."
+          fi
+          gh --version
+
+      - name: Get the latest release
+        id: get-latest-release
+        run: |
+          # Use GitHub CLI to get the latest release information
+          echo "Getting latest release info..."
+          release_info=$(gh release view --json tagName -q .tagName)
+          echo "::set-output name=tag_name::$release_info"
+
+      - name: Download the release asset
+        run: |
+          # Construct the asset file name
+          asset_name="${{ steps.get-latest-release.outputs.tag_name }}.zip"
+          echo "Looking for asset: $asset_name"
+          
+          # Use GitHub CLI to download the asset
+          gh release download "${{ steps.get-latest-release.outputs.tag_name }}" \
+            --pattern "$asset_name" \
+            --dir .
