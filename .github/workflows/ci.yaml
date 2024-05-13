@@ -61,6 +61,44 @@ jobs:
           asset_name="${{ env.tag_name }}.zip"
           unzip "$asset_name" -d extracted
 
+      - name: Check for the expected directory structure
+
+        # extracted/{release_name}
+        # include
+        #   boost/
+        # libs
+        #   arm64-v8a/
+        #   armeabi-v7a/
+        #   x86/
+        #   x86_64/
+
+          run: |
+            # Expected root directory inside the extracted folder
+            expected_dir="extracted/${{ env.tag_name }}"
+            echo "Checking for directory: $expected_dir"
+            
+            # Check if the extracted root directory exists
+            if [ ! -d "$expected_dir" ]; then
+              echo "Directory $expected_dir does not exist."
+              exit 1
+            fi
+
+            # Check for the 'include' directory with the 'boost' subdirectory
+            if [ ! -d "$expected_dir/include/boost" ]; then
+              echo "Directory $expected_dir/include/boost does not exist."
+              exit 1
+            fi
+
+            # Check for the 'libs' directory with expected architecture subdirectories
+            for arch in arm64-v8a armeabi-v7a x86 x86_64; do
+              if [ ! -d "$expected_dir/libs/$arch" ]; then
+                echo "Directory $expected_dir/libs/$arch does not exist."
+                exit 1
+              fi
+            done
+
+          echo "All specified directories exist."
+
       # - name: Check for the specific file
       #   run: |
       #     # Update this path to the expected location of your file within the extracted directory
@@ -70,3 +108,5 @@ jobs:
       #       echo "File does not exist."
       #       exit 1
       #     fi
+
+
