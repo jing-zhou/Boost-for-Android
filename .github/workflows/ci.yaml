@@ -1,6 +1,12 @@
 name: Release Asset Check
 
 on:
+  workflow_dispatch:
+    inputs:
+      tagName:
+        description: 'Tag Name to Process (leave empty for latest)'
+        required: false
+        default: ''
   release:
     types: [created, published]
 
@@ -10,7 +16,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Install GitHub CLI
         run: |
           if ! command -v gh &> /dev/null
@@ -23,21 +29,30 @@ jobs:
           fi
           gh --version
 
-      - name: Get the latest release
-        id: get-latest-release
+      - name: Determine the Tag Name
+        id: get-tag-name
         run: |
-          # Use GitHub CLI to get the latest release information
-          echo "Getting latest release info..."
-          release_info=$(gh release view --json tagName -q .tagName)
-          echo "::set-output name=tag_name::$release_info"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.tagName }}" != "" ]]; then
+            echo "Using manually provided tag name: ${{ github.event.inputs.tagName }}"
+            echo "::set-output name=tag_name::${{ github.event.inputs.tagName }}"
+          else
+            echo "Determining the latest release tag..."
+            release_info=$(gh release view --json tagName -q .tagName)
+            echo "::set-output name=tag_name::$release_info"
+          fi
 
       - name: Download the release asset
         run: |
           # Construct the asset file name
-          asset_name="${{ steps.get-latest-release.outputs.tag_name }}.zip"
+          asset_name="${{ steps.get-tag-name.outputs.tag_name }}.zip"
           echo "Looking for asset: $asset_name"
           
           # Use GitHub CLI to download the asset
-          gh release download "${{ steps.get-latest-release.outputs.tag_name }}" \
+          gh release download "${{ steps.get-tag-name.outputs.tag_name }}" \
             --pattern "$asset_name" \
             --dir .
+
+      - name: Extract the archive
+        run: |
+          asset_name="${{ steps.get-tag-name.outputs.tag_name }}.zip"
+          unzip "$asset_name" -d extracted
