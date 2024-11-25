@@ -23,10 +23,10 @@ mkdir -p ${PREFIX_DIR}
 LIBS_DIR=${PREFIX_DIR}/libs
 INCLUDE_DIR=${PREFIX_DIR}/include
 
-WITHOUT_LIBRARIES=--without-python
+# WITHOUT_LIBRARIES=--without-python
 
 # only build these libs
-# WITH_LIBRARIES="--with-chrono --with-system"
+WITH_LIBRARIES="--with-program_options --with-system"
 
 
 LOG_FILE=${BUILD_DIR}/build.log
